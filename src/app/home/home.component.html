@@ -19,11 +19,12 @@
         type="submit"
         mat-button
         color="primary"
-        [disabled]="form.invalid"
+        [disabled]="form.invalid || loading"
       >
-        <span>Submit</span>
+        <span *ngIf="!loading">Submit</span>
+        <span *ngIf="loading">Searching...</span>
       </button>
-      <button mat-button (click)="onClear()">
+      <button type="button" mat-button (click)="onClear()">
         <span>Clear</span>
       </button></mat-card-actions
     >
@@ -37,21 +38,25 @@
   <mat-card-header>
     <mat-card-title>Result list</mat-card-title>
     <mat-card-subtitle
-      >There are {{ repositories.length }} results</mat-card-subtitle
+      >There are {{ pageEvent.length }} results</mat-card-subtitle
     >
   </mat-card-header>
   <mat-card-content>
-    <mat-list>
+    <mat-progress-spinner
+      *ngIf="loading"
+      mode="indeterminate"
+    ></mat-progress-spinner>
+    <mat-list *ngIf="!loading">
       <mat-list-item *ngFor="let repository of repositories">
         <img
           matListAvatar
-          src="{{ repository.avatar_url }}"
-          *ngIf="repository.avatar_url"
+          src="{{ repository.owner.avatar_url }}"
+          *ngIf="repository.owner.avatar_url"
         />
         <img
           matListAvatar
           src="assets/github.png"
-          *ngIf="!repository.avatar_url"
+          *ngIf="!repository.owner.avatar_url"
         />
         <h3 matLine>{{ repository.full_name }}</h3>
         <p matLine>
@@ -59,5 +64,13 @@
         </p>
       </mat-list-item>
     </mat-list>
+    <mat-paginator
+      [length]="pageEvent.length"
+      [pageSize]="pageEvent.pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="onPage($event)"
+      showFirstLastButtons
+    >
+    </mat-paginator>
   </mat-card-content>
 </mat-card>
