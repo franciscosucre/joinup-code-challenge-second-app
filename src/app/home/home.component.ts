@@ -16,8 +16,7 @@ import { DialogModalComponent } from '../dialog-modal/dialog-modal.component';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25, 100];
+  pageSizeOptions = [5, 10, 25];
   pageEvent: PageEvent = new PageEvent();
   repositories: Partial<Repository>[] = [];
   title = 'Bienvenidos';
@@ -26,7 +25,7 @@ export class HomeComponent {
   form = new FormGroup({
     searchTerm: new FormControl('', Validators.required)
   });
-  debounceTime: 100000;
+  debounceTime: 1000;
   paginationDebounce: any;
 
   constructor(
