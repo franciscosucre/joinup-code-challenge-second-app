@@ -1,0 +1,63 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form">
+    <mat-card-header>
+      <mat-card-title>Search form</mat-card-title>
+      <mat-card-subtitle>Feel the magic!</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-form-field class="full-width">
+        <input
+          matInput
+          placeholder="Place a string to search for repositories"
+          required
+          formControlName="searchTerm"
+        />
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        type="submit"
+        mat-button
+        color="primary"
+        [disabled]="form.invalid"
+      >
+        <span>Submit</span>
+      </button>
+      <button mat-button (click)="onClear()">
+        <span>Clear</span>
+      </button></mat-card-actions
+    >
+  </form>
+</mat-card>
+
+<br />
+<br />
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Result list</mat-card-title>
+    <mat-card-subtitle
+      >There are {{ repositories.length }} results</mat-card-subtitle
+    >
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let repository of repositories">
+        <img
+          matListAvatar
+          src="{{ repository.avatar_url }}"
+          *ngIf="repository.avatar_url"
+        />
+        <img
+          matListAvatar
+          src="assets/github.png"
+          *ngIf="!repository.avatar_url"
+        />
+        <h3 matLine>{{ repository.full_name }}</h3>
+        <p matLine>
+          <span> {{ repository.description }} </span>
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
